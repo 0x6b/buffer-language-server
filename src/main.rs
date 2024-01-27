@@ -1,10 +1,10 @@
-use std::collections::HashSet;
-use std::sync::{Arc, Mutex};
+use std::{
+    collections::HashSet,
+    sync::{Arc, Mutex},
+};
 
 use serde_json::Value;
-use tower_lsp::jsonrpc::Result;
-use tower_lsp::lsp_types::*;
-use tower_lsp::{Client, LanguageServer, LspService, Server};
+use tower_lsp::{jsonrpc::Result, lsp_types::*, Client, LanguageServer, LspService, Server};
 
 const FAILED_TO_ACQUIRE_LOCK_MSG: &str = "failed to acquire lock";
 
@@ -51,9 +51,7 @@ impl LanguageServer for Backend {
     }
 
     async fn initialized(&self, _: InitializedParams) {
-        self.client
-            .log_message(MessageType::INFO, "initialized!")
-            .await;
+        self.client.log_message(MessageType::INFO, "initialized!").await;
     }
 
     async fn shutdown(&self) -> Result<()> {
@@ -63,9 +61,7 @@ impl LanguageServer for Backend {
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
         *self.document_text.lock().expect(FAILED_TO_ACQUIRE_LOCK_MSG) = params.text_document.text;
 
-        self.client
-            .log_message(MessageType::INFO, "file opened!")
-            .await;
+        self.client.log_message(MessageType::INFO, "file opened!").await;
     }
 
     async fn did_change(&self, params: DidChangeTextDocumentParams) {
@@ -85,21 +81,15 @@ impl LanguageServer for Backend {
             }
         }
 
-        self.client
-            .log_message(MessageType::INFO, "file changed!")
-            .await;
+        self.client.log_message(MessageType::INFO, "file changed!").await;
     }
 
     async fn did_save(&self, _: DidSaveTextDocumentParams) {
-        self.client
-            .log_message(MessageType::INFO, "file saved!")
-            .await;
+        self.client.log_message(MessageType::INFO, "file saved!").await;
     }
 
     async fn did_close(&self, _: DidCloseTextDocumentParams) {
-        self.client
-            .log_message(MessageType::INFO, "file closed!")
-            .await;
+        self.client.log_message(MessageType::INFO, "file closed!").await;
     }
 
     async fn completion(&self, params: CompletionParams) -> Result<Option<CompletionResponse>> {
@@ -159,9 +149,7 @@ impl LanguageServer for Backend {
     }
 
     async fn execute_command(&self, _: ExecuteCommandParams) -> Result<Option<Value>> {
-        self.client
-            .log_message(MessageType::INFO, "command executed!")
-            .await;
+        self.client.log_message(MessageType::INFO, "command executed!").await;
 
         Ok(None)
     }
