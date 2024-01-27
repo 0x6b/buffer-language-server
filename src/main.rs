@@ -61,32 +61,6 @@ impl LanguageServer for Backend {
         Ok(())
     }
 
-    async fn did_change_workspace_folders(&self, _: DidChangeWorkspaceFoldersParams) {
-        self.client
-            .log_message(MessageType::INFO, "workspace folders changed!")
-            .await;
-    }
-
-    async fn did_change_configuration(&self, _: DidChangeConfigurationParams) {
-        self.client
-            .log_message(MessageType::INFO, "configuration changed!")
-            .await;
-    }
-
-    async fn did_change_watched_files(&self, _: DidChangeWatchedFilesParams) {
-        self.client
-            .log_message(MessageType::INFO, "watched files have changed!")
-            .await;
-    }
-
-    async fn execute_command(&self, _: ExecuteCommandParams) -> Result<Option<Value>> {
-        self.client
-            .log_message(MessageType::INFO, "command executed!")
-            .await;
-
-        Ok(None)
-    }
-
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
         *self.document_text.lock().expect(FAILED_TO_ACQUIRE_LOCK_MSG) = params.text_document.text;
 
@@ -165,6 +139,32 @@ impl LanguageServer for Backend {
                 })
                 .collect(),
         )))
+    }
+
+    async fn did_change_configuration(&self, _: DidChangeConfigurationParams) {
+        self.client
+            .log_message(MessageType::INFO, "configuration changed!")
+            .await;
+    }
+
+    async fn did_change_workspace_folders(&self, _: DidChangeWorkspaceFoldersParams) {
+        self.client
+            .log_message(MessageType::INFO, "workspace folders changed!")
+            .await;
+    }
+
+    async fn did_change_watched_files(&self, _: DidChangeWatchedFilesParams) {
+        self.client
+            .log_message(MessageType::INFO, "watched files have changed!")
+            .await;
+    }
+
+    async fn execute_command(&self, _: ExecuteCommandParams) -> Result<Option<Value>> {
+        self.client
+            .log_message(MessageType::INFO, "command executed!")
+            .await;
+
+        Ok(None)
     }
 }
 
