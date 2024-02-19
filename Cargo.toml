@@ -1,6 +1,6 @@
 [package]
 name = "buffer-language-server"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "LSP that can autocomplete words found in the opened buffer"
 license-file = "LICENSE"
